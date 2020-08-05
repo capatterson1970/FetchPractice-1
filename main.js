@@ -9,8 +9,13 @@ window.onload = function() {
 // this function is going to make a fetch request to the url inside it's parameter brackets (). Then it will turn the response (data it's getting back), saved here as res. The res.json will not be saved as posts and saved into the variable, arrayOfPosts
 const getPosts = () => {
   fetch('http://jsonplaceholder.typicode.com/posts')
-    .then(res => res.json())
-    .then(posts => arrayOfPosts = posts)
+  .then(res => {
+    if(!res.ok) {
+      throw Error(res.statusText)
+    } return res.json()
+  })
+  .then(posts => arrayOfPosts = posts)
+  .catch(err => console.log(`Error,  ${err}`))
 }
 
 // this function logs the results in your browsers console
@@ -33,7 +38,11 @@ const displayPost = () => {
 
 const fetch5Posts = () => {
     fetch('http://jsonplaceholder.typicode.com/posts')
-    .then(response => response.json())
+    .then(res => {
+        if(!res.ok) {
+          throw Error(res.statusText)
+        } return res.json()
+      })
     .then(data => {
       data.forEach(post => {
         if(post.id <= 5){
@@ -44,11 +53,16 @@ const fetch5Posts = () => {
         }
       })
     })
+    .catch(err => console.log(`Error,  ${err}`))
 }
 
 const fetchComments = () => {
     fetch('https://jsonplaceholder.typicode.com/comments')
-    .then(response => response.json())
+    .then(res => {
+        if(!res.ok) {
+          throw Error(res.statusText)
+        } return res.json()
+      })
     .then(data => {
     data.forEach(comment => {
       const allPosts = document.getElementById('comments');
@@ -57,11 +71,16 @@ const fetchComments = () => {
       allPosts.append(li);
     })
   })
+  .catch(err => console.log(`Error,  ${err}`))
 }
 
 const fetchUsers = () => {
     fetch('https://jsonplaceholder.typicode.com/users')
-    .then(response => response.json())
+    .then(res => {
+        if(!res.ok) {
+          throw Error(res.statusText)
+        } return res.json()
+      })
     .then(data => {
     data.forEach(user => {
       const allPosts = document.getElementById('users');
@@ -70,4 +89,5 @@ const fetchUsers = () => {
       allPosts.append(li);
     })
   })
+  .catch(err => console.log(`Error,  ${err}`))
 }
